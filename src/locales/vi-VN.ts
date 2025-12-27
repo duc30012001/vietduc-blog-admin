@@ -102,6 +102,25 @@ export default {
     "category.table.postCount": "Số bài viết",
     "category.table.createdAt": "Ngày tạo",
 
+    // Category Form
+    "category.form.nameVi": "Tên tiếng Việt",
+    "category.form.nameVi.placeholder": "Nhập tên danh mục tiếng Việt",
+    "category.form.nameEn": "Tên tiếng Anh",
+    "category.form.nameEn.placeholder": "Nhập tên danh mục tiếng Anh",
+    "category.form.description": "Mô tả",
+    "category.form.description.placeholder": "Nhập mô tả danh mục",
+    "category.form.parent": "Danh mục cha",
+    "category.form.parent.placeholder": "Chọn danh mục cha",
+
+    // Category Tree
+    "category.tree.empty": "Chưa có danh mục nào. Nhấn nút Thêm mới để tạo danh mục đầu tiên.",
+    "category.tree.reorderSuccess": "Đã cập nhật thứ tự danh mục",
+    "category.tree.reorderError": "Cập nhật thứ tự thất bại",
+
+    // Category Delete
+    "category.delete.alertWithChildren":
+        "Bạn có chắc muốn xóa {label}? Tất cả danh mục con cũng sẽ bị xóa. Hành động này không thể hoàn tác.",
+
     // Post Table
     "post.table.title": "Danh sách bài viết",
     "post.table.titleVi": "Tiêu đề (VI)",
