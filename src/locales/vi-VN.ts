@@ -90,9 +90,18 @@ export default {
     // Tag Table
     "tag.table.title": "Danh sách thẻ",
     "tag.table.name": "Tên thẻ",
+    "tag.table.nameVi": "Tên tiếng Việt",
+    "tag.table.nameEn": "Tên tiếng Anh",
     "tag.table.slug": "Slug",
     "tag.table.postCount": "Số bài viết",
     "tag.table.createdAt": "Ngày tạo",
+
+    // Tag Form
+    "tag.form.viewTitle": "Chi tiết thẻ",
+    "tag.form.nameVi": "Tên tiếng Việt",
+    "tag.form.nameVi.placeholder": "Nhập tên thẻ tiếng Việt",
+    "tag.form.nameEn": "Tên tiếng Anh",
+    "tag.form.nameEn.placeholder": "Nhập tên thẻ tiếng Anh",
 
     // Category Table
     "category.table.title": "Danh sách danh mục",
@@ -134,6 +143,30 @@ export default {
     "post.status.published": "Đã xuất bản",
     "post.status.archived": "Đã lưu trữ",
 
+    // Post Form
+    "post.form.viewTitle": "Chi tiết bài viết",
+    "post.form.content": "Nội dung",
+    "post.form.settings": "Cài đặt",
+    "post.form.vietnamese": "Tiếng Việt",
+    "post.form.english": "Tiếng Anh",
+    "post.form.titleVi": "Tiêu đề tiếng Việt",
+    "post.form.titleVi.placeholder": "Nhập tiêu đề tiếng Việt",
+    "post.form.titleEn": "Tiêu đề tiếng Anh",
+    "post.form.titleEn.placeholder": "Nhập tiêu đề tiếng Anh",
+    "post.form.excerptVi": "Tóm tắt tiếng Việt",
+    "post.form.excerptVi.placeholder": "Nhập tóm tắt tiếng Việt",
+    "post.form.excerptEn": "Tóm tắt tiếng Anh",
+    "post.form.excerptEn.placeholder": "Nhập tóm tắt tiếng Anh",
+    "post.form.contentVi": "Nội dung tiếng Việt",
+    "post.form.contentEn": "Nội dung tiếng Anh",
+    "post.form.status": "Trạng thái",
+    "post.form.category": "Danh mục",
+    "post.form.category.placeholder": "Chọn danh mục",
+    "post.form.thumbnail": "Ảnh đại diện",
+    "post.form.thumbnail.placeholder": "Nhập URL ảnh đại diện",
+    "post.form.tags": "Thẻ",
+    "post.form.tags.placeholder": "Chọn thẻ",
+
     // Comment Table
     "comment.table.title": "Danh sách bình luận",
     "comment.table.content": "Nội dung",
@@ -161,4 +194,12 @@ export default {
     "auth.passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự",
     "auth.loginSuccess": "Đăng nhập thành công",
     "auth.signupSuccess": "Đăng ký thành công",
+
+    // Upload
+    "upload.dragText": "Kéo thả hoặc nhấp để tải lên",
+    "upload.hint": "Hỗ trợ: JPG, PNG, GIF, WebP. Tối đa 2MB",
+    "upload.success": "Tải lên thành công",
+    "upload.error": "Tải lên thất bại",
+    "upload.invalidType": "Chỉ hỗ trợ định dạng JPG, PNG, GIF, WebP",
+    "upload.maxSize": "Kích thước file tối đa là {size}",
 };

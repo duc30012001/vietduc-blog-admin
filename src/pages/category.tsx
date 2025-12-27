@@ -15,12 +15,13 @@ import { PlusOutlined } from "@ant-design/icons";
 import {
     ModalForm,
     PageContainer,
+    ProCard,
     ProFormText,
     ProFormTextArea,
     ProFormTreeSelect,
 } from "@ant-design/pro-components";
 import type { TreeDataNode as AntTreeDataNode, TreeProps } from "antd";
-import { Button, Card, message, Popconfirm, Space, Spin, Tree, Typography } from "antd";
+import { Button, message, Popconfirm, Space, Spin, Tree, Typography } from "antd";
 import type { EventDataNode } from "antd/es/tree";
 import { useCallback, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
@@ -62,7 +63,7 @@ export default function CategoryPage() {
     const [createModalOpen, setCreateModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-    const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+    // const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
 
     // Queries
     const { data: categories, isLoading, refetch } = useCategoryTree();
@@ -174,7 +175,7 @@ export default function CategoryPage() {
 
     // Handle drag-drop
     const handleDrop: TreeProps<TreeDataNode>["onDrop"] = useCallback(
-        async (info) => {
+        async (info: any) => {
             const dropKey = info.node.key as string;
             const dragKey = info.dragNode.key as string;
             const dropPos = info.node.pos.split("-");
@@ -313,7 +314,7 @@ export default function CategoryPage() {
                 </Button>,
             ]}
         >
-            <Card>
+            <ProCard>
                 <Spin spinning={isLoading || bulkUpdateOrderMutation.isPending}>
                     {treeData.length > 0 ? (
                         <Tree<TreeDataNode>
@@ -321,8 +322,9 @@ export default function CategoryPage() {
                             draggable
                             blockNode
                             showLine
-                            expandedKeys={expandedKeys}
-                            onExpand={setExpandedKeys}
+                            defaultExpandAll
+                            // expandedKeys={expandedKeys}
+                            // onExpand={setExpandedKeys}
                             treeData={treeData}
                             onDrop={handleDrop}
                         />
@@ -334,7 +336,7 @@ export default function CategoryPage() {
                         )
                     )}
                 </Spin>
-            </Card>
+            </ProCard>
 
             {/* Create Modal */}
             <ModalForm<CreateCategoryDto>

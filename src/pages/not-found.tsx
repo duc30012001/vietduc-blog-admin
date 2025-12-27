@@ -22,7 +22,7 @@ export default function NotFoundPage() {
                 title={intl.formatMessage({ id: "page.notFound.title" })}
                 subTitle={intl.formatMessage({ id: "page.notFound.subtitle" })}
                 extra={
-                    <Button type="primary" onClick={() => navigate(PATHS.DASHBOARD)}>
+                    <Button type="primary" onClick={() => navigate(PATHS.HOME)}>
                         {intl.formatMessage({ id: "page.notFound.backHome" })}
                     </Button>
                 }

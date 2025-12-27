@@ -30,7 +30,7 @@ export default function LoginPage() {
 
     // If already logged in, redirect to dashboard
     if (user) {
-        navigate(PATHS.DASHBOARD);
+        navigate(PATHS.HOME);
         return null;
     }
 
@@ -44,7 +44,7 @@ export default function LoginPage() {
                 await signUp(values.email, values.password);
                 message.success(intl.formatMessage({ id: "auth.signupSuccess" }));
             }
-            navigate(PATHS.DASHBOARD);
+            navigate(PATHS.HOME);
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Authentication failed";
             message.error(errorMessage);
@@ -58,7 +58,7 @@ export default function LoginPage() {
         try {
             await signInWithPopup(auth, googleProvider);
             message.success(intl.formatMessage({ id: "auth.loginSuccess" }));
-            navigate(PATHS.DASHBOARD);
+            navigate(PATHS.HOME);
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : "Login failed";
             message.error(errorMessage);

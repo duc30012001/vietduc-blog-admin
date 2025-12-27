@@ -8,7 +8,6 @@ import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/Logout";
@@ -20,21 +19,6 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const menuConfig = [
     {
-        path: PATHS.DASHBOARD,
-        nameKey: "menu.dashboard",
-        icon: <DashboardOutlinedIcon fontSize="small" />,
-    },
-    {
-        path: PATHS.USER,
-        nameKey: "menu.user",
-        icon: <PersonOutlinedIcon fontSize="small" />,
-    },
-    {
-        path: PATHS.TAG,
-        nameKey: "menu.tag",
-        icon: <LocalOfferOutlinedIcon fontSize="small" />,
-    },
-    {
         path: PATHS.CATEGORY,
         nameKey: "menu.category",
         icon: <CategoryOutlinedIcon fontSize="small" />,
@@ -45,9 +29,19 @@ const menuConfig = [
         icon: <ArticleOutlinedIcon fontSize="small" />,
     },
     {
+        path: PATHS.TAG,
+        nameKey: "menu.tag",
+        icon: <LocalOfferOutlinedIcon fontSize="small" />,
+    },
+    {
         path: PATHS.COMMENT,
         nameKey: "menu.comment",
         icon: <ChatBubbleOutlineOutlinedIcon fontSize="small" />,
+    },
+    {
+        path: PATHS.USER,
+        nameKey: "menu.user",
+        icon: <PersonOutlinedIcon fontSize="small" />,
     },
 ];
 
@@ -106,7 +100,7 @@ export default function MainLayout() {
             key: "profile",
             label: intl.formatMessage({ id: "user.profile" }),
             icon: <PersonOutlinedIcon style={{ fontSize: 18 }} />,
-            onClick: () => navigate(PATHS.DASHBOARD),
+            onClick: () => navigate(PATHS.HOME),
         },
         { type: "divider" },
         {

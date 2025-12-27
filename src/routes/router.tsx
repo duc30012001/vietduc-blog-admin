@@ -47,7 +47,7 @@ export default function Router() {
                             {/* Redirect home to /dashboard */}
                             <Route
                                 path={PATHS.HOME}
-                                element={<Navigate to={PATHS.DASHBOARD} replace />}
+                                element={<Navigate to={PATHS.USER} replace />}
                             />
                             {renderRoutes(routes)}
                         </Route>
