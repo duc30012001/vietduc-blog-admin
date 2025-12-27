@@ -72,6 +72,13 @@ export default {
     "validation.emailFormat": "Vui lòng nhập đúng định dạng Email!",
     "validation.input": "Vui lòng nhập thông tin!",
 
+    // Upload
+    "upload.success": "Tải lên thành công",
+    "upload.error": "Tải lên thất bại",
+    "upload.uploading": "Đang tải lên...",
+    "upload.invalidType": "Loại file không hợp lệ",
+    "upload.maxSize": "Kích thước file tối đa là {size}",
+
     // User Table
     "user.table.title": "Danh sách người dùng",
     "user.table.avatar": "Ảnh",
@@ -198,8 +205,5 @@ export default {
     // Upload
     "upload.dragText": "Kéo thả hoặc nhấp để tải lên",
     "upload.hint": "Hỗ trợ: JPG, PNG, GIF, WebP. Tối đa 2MB",
-    "upload.success": "Tải lên thành công",
-    "upload.error": "Tải lên thất bại",
-    "upload.invalidType": "Chỉ hỗ trợ định dạng JPG, PNG, GIF, WebP",
-    "upload.maxSize": "Kích thước file tối đa là {size}",
+    "upload.uploading": "Đang tải lên...",
 };

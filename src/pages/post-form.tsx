@@ -1,3 +1,4 @@
+import { MDEditorWithUpload } from "@/common/components";
 import { uploadThumbnail } from "@/common/utils";
 import { useCategoryTree } from "@/modules/categories";
 import type { CreatePostDto, PostStatus, UpdatePostDto } from "@/modules/posts";
@@ -12,7 +13,6 @@ import {
 } from "@ant-design/pro-components";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MDEditor from "@uiw/react-md-editor";
 import {
     Button,
     Card,
@@ -385,18 +385,13 @@ export default function PostFormPage() {
                                                     })}
                                                     required
                                                 >
-                                                    <div data-color-mode="light">
-                                                        <MDEditor
-                                                            value={contentVi}
-                                                            onChange={(val) =>
-                                                                setContentVi(val || "")
-                                                            }
-                                                            height={400}
-                                                            preview={
-                                                                isViewMode ? "preview" : "live"
-                                                            }
-                                                        />
-                                                    </div>
+                                                    <MDEditorWithUpload
+                                                        value={contentVi}
+                                                        onChange={setContentVi}
+                                                        height={400}
+                                                        preview={isViewMode ? "preview" : "live"}
+                                                        disabled={isViewMode}
+                                                    />
                                                 </Form.Item>
                                             </>
                                         ),
@@ -458,18 +453,13 @@ export default function PostFormPage() {
                                                     })}
                                                     required
                                                 >
-                                                    <div data-color-mode="light">
-                                                        <MDEditor
-                                                            value={contentEn}
-                                                            onChange={(val) =>
-                                                                setContentEn(val || "")
-                                                            }
-                                                            height={400}
-                                                            preview={
-                                                                isViewMode ? "preview" : "live"
-                                                            }
-                                                        />
-                                                    </div>
+                                                    <MDEditorWithUpload
+                                                        value={contentEn}
+                                                        onChange={setContentEn}
+                                                        height={400}
+                                                        preview={isViewMode ? "preview" : "live"}
+                                                        disabled={isViewMode}
+                                                    />
                                                 </Form.Item>
                                             </>
                                         ),
