@@ -1,7 +1,7 @@
 import { queryKeys } from "@/common/utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userApi } from "../api/user.api";
-import type { UserQuery } from "../types";
+import type { UpdateUserDto, UserQuery } from "../types";
 
 export const CURRENT_USER_QUERY_KEY = ["currentUser"];
 
@@ -37,6 +37,21 @@ export const useUser = (id: string) => {
         queryFn: () => userApi.getUser(id),
         enabled: !!id,
         placeholderData: (prev) => prev,
+    });
+};
+
+/**
+ * Hook to update a user
+ */
+export const useUpdateUser = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: ({ id, data }: { id: string; data: UpdateUserDto }) =>
+            userApi.updateUser(id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: queryKeys.users.all });
+        },
     });
 };
 

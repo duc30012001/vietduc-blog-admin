@@ -1,10 +1,10 @@
 import type { SortOrder } from "@/common/types";
-import { useSyncFirebaseUsers, useUsers } from "@/modules/users";
-import type { User, UserQuery } from "@/modules/users/types";
+import { useSyncFirebaseUsers, useUpdateUser, useUsers } from "@/modules/users";
+import type { User, UserQuery, UserRole } from "@/modules/users/types";
 import { SyncOutlined } from "@ant-design/icons";
 import type { ProColumns } from "@ant-design/pro-components";
 import { PageContainer, ProTable } from "@ant-design/pro-components";
-import { Avatar, Button, message, Tag } from "antd";
+import { Avatar, Button, message, Select } from "antd";
 import { parseAsBoolean, parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 import { useIntl } from "react-intl";
 
@@ -34,8 +34,9 @@ export default function UserPage() {
         is_verified: queryState.is_verified ?? undefined,
     };
 
-    const { data: usersResponse, isLoading } = useUsers(query);
+    const { data: usersResponse, isLoading, refetch } = useUsers(query);
     const syncFirebase = useSyncFirebaseUsers();
+    const updateUser = useUpdateUser();
 
     const handleSync = async () => {
         try {
@@ -51,6 +52,15 @@ export default function UserPage() {
             }
         } catch {
             message.error(intl.formatMessage({ id: "user.sync.error" }));
+        }
+    };
+
+    const handleRoleChange = async (userId: string, role: UserRole) => {
+        try {
+            await updateUser.mutateAsync({ id: userId, data: { role } });
+            message.success(intl.formatMessage({ id: "user.update.success" }));
+        } catch {
+            message.error(intl.formatMessage({ id: "user.update.error" }));
         }
     };
 
@@ -71,7 +81,9 @@ export default function UserPage() {
             title: intl.formatMessage({ id: "user.table.name" }),
             dataIndex: "name",
             key: "name",
+            width: 200,
             ellipsis: true,
+            sorter: true,
         },
         {
             title: intl.formatMessage({ id: "user.table.email" }),
@@ -79,14 +91,27 @@ export default function UserPage() {
             key: "email",
             ellipsis: true,
             copyable: true,
+            search: false,
+            width: 250,
+            sorter: true,
         },
         {
             title: intl.formatMessage({ id: "user.table.role" }),
             dataIndex: "role",
             key: "role",
-            width: 100,
+            width: 120,
             render: (_, record) => (
-                <Tag color={record.role === "ADMIN" ? "red" : "blue"}>{record.role}</Tag>
+                <Select
+                    value={record.role}
+                    onChange={(value) => handleRoleChange(record.id, value)}
+                    loading={updateUser.isPending}
+                    size="small"
+                    style={{ width: 100 }}
+                    options={[
+                        { value: "ADMIN", label: "Admin" },
+                        { value: "USER", label: "User" },
+                    ]}
+                />
             ),
             valueEnum: {
                 ADMIN: { text: "Admin", status: "Error" },
@@ -98,13 +123,13 @@ export default function UserPage() {
             dataIndex: "is_verified",
             key: "is_verified",
             width: 100,
-            render: (_, record) => (
-                <Tag color={record.is_verified ? "green" : "default"}>
-                    {record.is_verified
-                        ? intl.formatMessage({ id: "common.yes" })
-                        : intl.formatMessage({ id: "common.no" })}
-                </Tag>
-            ),
+            // render: (_, record) => (
+            //     <Tag color={record.is_verified ? "green" : "default"}>
+            //         {record.is_verified
+            //             ? intl.formatMessage({ id: "common.yes" })
+            //             : intl.formatMessage({ id: "common.no" })}
+            //     </Tag>
+            // ),
             valueEnum: {
                 true: { text: intl.formatMessage({ id: "common.yes" }), status: "Success" },
                 false: { text: intl.formatMessage({ id: "common.no" }), status: "Default" },
@@ -114,6 +139,15 @@ export default function UserPage() {
             title: intl.formatMessage({ id: "user.table.createdAt" }),
             dataIndex: "created_at",
             key: "created_at",
+            valueType: "dateTime",
+            width: 180,
+            sorter: true,
+            search: false,
+        },
+        {
+            title: intl.formatMessage({ id: "user.table.updatedAt" }),
+            dataIndex: "updated_at",
+            key: "updated_at",
             valueType: "dateTime",
             width: 180,
             sorter: true,
@@ -142,10 +176,19 @@ export default function UserPage() {
                 search={{
                     labelWidth: "auto",
                 }}
+                form={{
+                    colon: false,
+                    initialValues: {
+                        name: query.keyword,
+                        role: query.role,
+                        is_verified:
+                            query.is_verified !== undefined ? String(query.is_verified) : undefined,
+                    },
+                }}
                 options={{
                     density: true,
                     fullScreen: true,
-                    reload: () => setQuery({ page: 1 }),
+                    reload: () => refetch(),
                 }}
                 pagination={{
                     current: usersResponse?.meta.page || queryState.page,
@@ -185,6 +228,13 @@ export default function UserPage() {
                         is_verified: null,
                         page: 1,
                     });
+                }}
+                columnsState={{
+                    persistenceKey: "users-table-columns",
+                    persistenceType: "localStorage",
+                }}
+                scroll={{
+                    x: "max-content",
                 }}
             />
         </PageContainer>

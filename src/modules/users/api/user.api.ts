@@ -1,6 +1,6 @@
 import type { ApiResponse, PaginatedResponse } from "@/common/types";
 import axiosClient from "@/config/axios";
-import type { SyncFirebaseResult, User, UserQuery } from "../types";
+import type { SyncFirebaseResult, UpdateUserDto, User, UserQuery } from "../types";
 
 const USERS_ENDPOINT = "/users";
 
@@ -31,6 +31,17 @@ export const userApi = {
      */
     getUser: async (id: string): Promise<User> => {
         const response = await axiosClient.get<ApiResponse<User>>(`${USERS_ENDPOINT}/${id}`);
+        return response.data.data;
+    },
+
+    /**
+     * Update user
+     */
+    updateUser: async (id: string, data: UpdateUserDto): Promise<User> => {
+        const response = await axiosClient.patch<ApiResponse<User>>(
+            `${USERS_ENDPOINT}/${id}`,
+            data
+        );
         return response.data.data;
     },
 

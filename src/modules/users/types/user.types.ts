@@ -39,3 +39,10 @@ export interface SyncFirebaseResult {
     total: number;
     errors: string[];
 }
+
+// Update user DTO
+export interface UpdateUserDto {
+    name?: string;
+    avatar?: string;
+    role?: UserRole;
+}

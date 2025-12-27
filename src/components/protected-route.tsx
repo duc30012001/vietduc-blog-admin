@@ -1,5 +1,6 @@
 import { useAuth } from "@/contexts/auth-context";
 import { useTheme } from "@/contexts/theme-context";
+import { useCurrentUser } from "@/modules/users";
 import { PATHS } from "@/routes/config";
 import { Spin } from "antd";
 import { type ReactNode, useEffect } from "react";
@@ -10,17 +11,29 @@ interface ProtectedRouteProps {
 }
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-    const { user, loading } = useAuth();
+    const { user, loading: authLoading } = useAuth();
     const { resolvedMode } = useTheme();
     const navigate = useNavigate();
 
+    // Fetch current user from API to get role
+    const { data: currentUser, isLoading: userLoading, isError } = useCurrentUser();
+
+    const isLoading = authLoading || (user && userLoading);
+
     useEffect(() => {
-        if (!loading && !user) {
+        if (!authLoading && !user) {
             navigate(PATHS.LOGIN);
         }
-    }, [loading, user, navigate]);
+    }, [authLoading, user, navigate]);
 
-    if (loading) {
+    useEffect(() => {
+        // If API returns error (403 from admin guard) or user is not admin
+        if (user && !userLoading && (isError || (currentUser && currentUser.role !== "ADMIN"))) {
+            navigate(PATHS.FORBIDDEN);
+        }
+    }, [user, userLoading, currentUser, isError, navigate]);
+
+    if (isLoading) {
         return (
             <div
                 style={{
@@ -37,6 +50,11 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
     }
 
     if (!user) {
+        return null;
+    }
+
+    // Wait for role check
+    if (!currentUser || currentUser.role !== "ADMIN") {
         return null;
     }
 

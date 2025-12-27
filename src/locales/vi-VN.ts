@@ -30,6 +30,9 @@ export default {
     "page.notFound.title": "404 - Không tìm thấy trang",
     "page.notFound.subtitle": "Xin lỗi, trang bạn đang tìm kiếm không tồn tại.",
     "page.notFound.backHome": "Về trang chủ",
+    "page.forbidden.subtitle":
+        "Xin lỗi, bạn không có quyền truy cập trang này. Chỉ Admin mới có thể truy cập.",
+    "page.forbidden.logout": "Đăng xuất",
 
     // Common
     "common.comingSoon": "Tính năng đang phát triển",
@@ -81,6 +84,8 @@ export default {
     "user.sync.button": "Đồng bộ Firebase",
     "user.sync.success": "Đã đồng bộ {synced}/{total} người dùng từ Firebase",
     "user.sync.error": "Đồng bộ thất bại",
+    "user.update.success": "Cập nhật thành công",
+    "user.update.error": "Cập nhật thất bại",
 
     // Tag Table
     "tag.table.title": "Danh sách thẻ",

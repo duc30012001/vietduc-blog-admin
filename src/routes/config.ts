@@ -10,6 +10,7 @@ export const PATHS = {
     POST: "/post",
     COMMENT: "/comment",
     LOGIN: "/login",
+    FORBIDDEN: "/forbidden",
     NOT_FOUND: "*",
 } as const;
 
@@ -29,6 +30,7 @@ const Category = lazy(() => import("../pages/category"));
 const Post = lazy(() => import("../pages/post"));
 const Comment = lazy(() => import("../pages/comment"));
 const Login = lazy(() => import("../pages/login"));
+const Forbidden = lazy(() => import("../pages/forbidden"));
 const NotFound = lazy(() => import("../pages/not-found"));
 
 // ✅ Add/remove/update routes here - easy to maintain!
@@ -43,4 +45,7 @@ export const routes: RouteConfig[] = [
 ];
 
 // Public routes (not protected)
-export const publicRoutes: RouteConfig[] = [{ path: PATHS.LOGIN, component: Login }];
+export const publicRoutes: RouteConfig[] = [
+    { path: PATHS.LOGIN, component: Login },
+    { path: PATHS.FORBIDDEN, component: Forbidden },
+];
