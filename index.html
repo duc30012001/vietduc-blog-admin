@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+
+  <!-- Primary Meta Tags -->
+  <title>Duck Blog</title>
+  <meta name="title" content="Duck Blog" />
+  <meta name="description" content="Duck Blog - " />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#1677ff" />
+  <meta name="msapplication-TileColor" content="#1677ff" />
+  <meta name="msapplication-TileImage" content="/logo.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Duck Blog" />
+  <meta property="og:description" content="Duck Blog - " />
+  <meta property="og:image" content="/background.png" />
+
+  <!-- Preload -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+
+<body>
+  <script>
+    // Prevent flash of wrong theme by setting background before React loads
+    (function () {
+      var mode = localStorage.getItem('theme-mode') || 'system';
+      var isDark = mode === 'dark' ||
+        (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.body.style.backgroundColor = isDark ? '#141414' : '#f5f5f5';
+    })();
+  </script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

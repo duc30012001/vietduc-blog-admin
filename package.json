@@ -1,0 +1,47 @@
+{
+    "name": "vietduc-blog-admin",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint": "eslint .",
+        "format": "prettier --write \"src/**/*.{ts,tsx,css,json}\"",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@ant-design/icons": "^6.1.0",
+        "@ant-design/pro-components": "^2.8.10",
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@mui/icons-material": "^7.3.6",
+        "@mui/material": "^7.3.6",
+        "@tanstack/react-query": "^5.90.12",
+        "antd": "^6.1.2",
+        "axios": "^1.13.2",
+        "firebase": "^12.7.0",
+        "nuqs": "^2.8.6",
+        "rc-field-form": "^2.7.1",
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "react-intl": "^8.0.9",
+        "react-router-dom": "^7.11.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@types/node": "^24.10.1",
+        "@types/react": "^19.2.5",
+        "@types/react-dom": "^19.2.3",
+        "@vitejs/plugin-react-swc": "^4.2.2",
+        "eslint": "^9.39.1",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-react-refresh": "^0.4.24",
+        "globals": "^16.5.0",
+        "prettier": "^3.7.4",
+        "prettier-plugin-organize-imports": "^4.3.0",
+        "typescript": "~5.9.3",
+        "typescript-eslint": "^8.46.4",
+        "vite": "^7.2.4"
+    }
+}
