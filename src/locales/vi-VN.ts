@@ -205,5 +205,4 @@ export default {
     // Upload
     "upload.dragText": "Kéo thả hoặc nhấp để tải lên",
     "upload.hint": "Hỗ trợ: JPG, PNG, GIF, WebP. Tối đa 2MB",
-    "upload.uploading": "Đang tải lên...",
 };
