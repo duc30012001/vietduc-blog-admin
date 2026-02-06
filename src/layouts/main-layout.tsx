@@ -12,6 +12,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import LocalOfferOutlinedIcon from "@mui/icons-material/LocalOfferOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/Logout";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
 import { useIntl } from "react-intl";
@@ -42,6 +43,11 @@ const menuConfig = [
         path: PATHS.USER,
         nameKey: "menu.user",
         icon: <PersonOutlinedIcon fontSize="small" />,
+    },
+    {
+        path: PATHS.SITE_SETTINGS,
+        nameKey: "menu.siteSettings",
+        icon: <SettingsOutlinedIcon fontSize="small" />,
     },
 ];
 

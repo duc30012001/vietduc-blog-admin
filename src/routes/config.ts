@@ -10,6 +10,7 @@ export const PATHS = {
     POST: "/post",
     POST_FORM: "/post/form",
     COMMENT: "/comment",
+    SITE_SETTINGS: "/site-settings",
     LOGIN: "/login",
     FORBIDDEN: "/forbidden",
     NOT_FOUND: "*",
@@ -31,6 +32,7 @@ const Category = lazy(() => import("../pages/category"));
 const Post = lazy(() => import("../pages/post"));
 const PostForm = lazy(() => import("../pages/post-form"));
 const Comment = lazy(() => import("../pages/comment"));
+const SiteSettings = lazy(() => import("../pages/site-settings"));
 const Login = lazy(() => import("../pages/login"));
 const Forbidden = lazy(() => import("../pages/forbidden"));
 const NotFound = lazy(() => import("../pages/not-found"));
@@ -44,6 +46,7 @@ export const routes: RouteConfig[] = [
     { path: PATHS.POST, component: Post },
     { path: PATHS.POST_FORM, component: PostForm },
     { path: PATHS.COMMENT, component: Comment },
+    { path: PATHS.SITE_SETTINGS, component: SiteSettings },
     { path: PATHS.NOT_FOUND, component: NotFound },
 ];
 
