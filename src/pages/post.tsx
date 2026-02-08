@@ -1,3 +1,4 @@
+import { formatNumber } from "@/common/utils/string.utils";
 import { useCategoryTree } from "@/modules/categories";
 import type { Post, PostQuery, PostStatus } from "@/modules/posts";
 import { useDeletePost } from "@/modules/posts";
@@ -10,10 +11,22 @@ import {
     type ProColumns,
 } from "@ant-design/pro-components";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Avatar, Button, message, Popconfirm, Space, Tag, TreeSelect, Typography } from "antd";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import {
+    Avatar,
+    Button,
+    Dropdown,
+    message,
+    Modal,
+    Space,
+    Tag,
+    TreeSelect,
+    Typography,
+    type MenuProps,
+} from "antd";
 import { useRef } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
@@ -152,34 +165,66 @@ export default function PostPage() {
             search: false,
         },
         {
+            title: intl.formatMessage({ id: "post.table.viewCount" }),
+            dataIndex: "view_count",
+            key: "view_count",
+            width: 150,
+            search: false,
+            sorter: true,
+            render: (dom) => formatNumber(dom as number),
+        },
+        {
             title: intl.formatMessage({ id: "action.title" }),
             key: "actions",
-            width: 150,
+            width: 120,
             fixed: "right",
             search: false,
-            render: (_, record) => (
-                <Space size="small">
-                    <Button
-                        type="text"
-                        icon={<VisibilityIcon fontSize="small" />}
-                        onClick={() => navigate(`${PATHS.POST_FORM}?id=${record.id}&mode=view`)}
-                    />
-                    <Button
-                        type="text"
-                        icon={<EditIcon fontSize="small" />}
-                        onClick={() => navigate(`${PATHS.POST_FORM}?id=${record.id}`)}
-                    />
-                    <Popconfirm
-                        title={intl.formatMessage(
-                            { id: "action.delete.alert" },
-                            { label: record.title_vi }
-                        )}
-                        onConfirm={() => handleDelete(record.id)}
-                    >
-                        <Button type="text" danger icon={<DeleteIcon fontSize="small" />} />
-                    </Popconfirm>
-                </Space>
-            ),
+            render: (_, record) => {
+                const items: MenuProps["items"] = [
+                    {
+                        key: "view",
+                        label: intl.formatMessage({ id: "action.view.button" }),
+                        icon: <VisibilityOutlinedIcon style={{ fontSize: 18 }} />,
+                        onClick: () => navigate(`${PATHS.POST_FORM}?id=${record.id}&mode=view`),
+                    },
+                    {
+                        key: "edit",
+                        label: intl.formatMessage({ id: "action.update.button" }),
+                        icon: <EditOutlinedIcon style={{ fontSize: 18 }} />,
+                        onClick: () => navigate(`${PATHS.POST_FORM}?id=${record.id}`),
+                    },
+                    {
+                        type: "divider",
+                    },
+                    {
+                        key: "delete",
+                        label: intl.formatMessage({ id: "action.delete.button" }),
+                        icon: <DeleteOutlinedIcon style={{ fontSize: 18 }} />,
+                        danger: true,
+                        onClick: () => {
+                            Modal.confirm({
+                                title: intl.formatMessage(
+                                    { id: "action.delete.title" },
+                                    { label: record.title_vi }
+                                ),
+                                content: intl.formatMessage(
+                                    { id: "action.delete.alert" },
+                                    { label: record.title_vi }
+                                ),
+                                okText: intl.formatMessage({ id: "action.delete.button" }),
+                                cancelText: intl.formatMessage({ id: "action.cancel.button" }),
+                                onOk: () => handleDelete(record.id),
+                            });
+                        },
+                    },
+                ];
+
+                return (
+                    <Dropdown menu={{ items }} trigger={["click"]}>
+                        <Button type="text" icon={<MoreVertOutlinedIcon fontSize="small" />} />
+                    </Dropdown>
+                );
+            },
         },
     ];
 

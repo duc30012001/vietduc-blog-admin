@@ -8,10 +8,11 @@ import {
     type ProColumns,
 } from "@ant-design/pro-components";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import { Button, message, Popconfirm, Space } from "antd";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { Button, Dropdown, message, Modal, type MenuProps } from "antd";
 import { useRef } from "react";
 import { useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
@@ -85,29 +86,52 @@ export default function TagPage() {
             width: 120,
             fixed: "right",
             search: false,
-            render: (_, record) => (
-                <Space size="small">
-                    <Button
-                        type="text"
-                        icon={<VisibilityIcon fontSize="small" />}
-                        onClick={() => navigate(`${PATHS.TAG_FORM}?id=${record.id}&mode=view`)}
-                    />
-                    <Button
-                        type="text"
-                        icon={<EditIcon fontSize="small" />}
-                        onClick={() => navigate(`${PATHS.TAG_FORM}?id=${record.id}`)}
-                    />
-                    <Popconfirm
-                        title={intl.formatMessage(
-                            { id: "action.delete.alert" },
-                            { label: record.name_vi }
-                        )}
-                        onConfirm={() => handleDelete(record.id)}
-                    >
-                        <Button type="text" danger icon={<DeleteIcon fontSize="small" />} />
-                    </Popconfirm>
-                </Space>
-            ),
+            render: (_, record) => {
+                const items: MenuProps["items"] = [
+                    {
+                        key: "view",
+                        label: intl.formatMessage({ id: "action.view.button" }),
+                        icon: <VisibilityOutlinedIcon style={{ fontSize: 18 }} />,
+                        onClick: () => navigate(`${PATHS.TAG_FORM}?id=${record.id}&mode=view`),
+                    },
+                    {
+                        key: "edit",
+                        label: intl.formatMessage({ id: "action.update.button" }),
+                        icon: <EditOutlinedIcon style={{ fontSize: 18 }} />,
+                        onClick: () => navigate(`${PATHS.TAG_FORM}?id=${record.id}`),
+                    },
+                    {
+                        type: "divider",
+                    },
+                    {
+                        key: "delete",
+                        label: intl.formatMessage({ id: "action.delete.button" }),
+                        icon: <DeleteOutlinedIcon style={{ fontSize: 18 }} />,
+                        danger: true,
+                        onClick: () => {
+                            Modal.confirm({
+                                title: intl.formatMessage(
+                                    { id: "action.delete.title" },
+                                    { label: record.name_vi }
+                                ),
+                                content: intl.formatMessage(
+                                    { id: "action.delete.alert" },
+                                    { label: record.name_vi }
+                                ),
+                                okText: intl.formatMessage({ id: "action.delete.button" }),
+                                cancelText: intl.formatMessage({ id: "action.cancel.button" }),
+                                onOk: () => handleDelete(record.id),
+                            });
+                        },
+                    },
+                ];
+
+                return (
+                    <Dropdown menu={{ items }} trigger={["click"]}>
+                        <Button type="text" icon={<MoreVertOutlinedIcon fontSize="small" />} />
+                    </Dropdown>
+                );
+            },
         },
     ];
 

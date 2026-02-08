@@ -18,3 +18,8 @@ export function toNonAccentVietnamese(str = "") {
     str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
     return str;
 }
+
+export function formatNumber(num: number | string) {
+    if (!num) return "0";
+    return new Intl.NumberFormat("vi-VN").format(Number(num));
+}
