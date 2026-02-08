@@ -3,6 +3,7 @@ import { Image, message, Upload, type UploadFile, type UploadProps } from "antd"
 import type { RcFile } from "antd/es/upload";
 import { useState } from "react";
 import { useIntl } from "react-intl";
+import { uploadThumbnail } from "../utils";
 
 interface UploadImageProps {
     value?: string;
@@ -54,7 +55,7 @@ export function UploadImage({
         }
     };
 
-    const beforeUpload = (file: RcFile) => {
+    const beforeUpload = async (file: RcFile) => {
         const isAllowedType = allowedTypes.includes(file.type);
         if (!isAllowedType) {
             message.error(intl.formatMessage({ id: "upload.error.type" }));
@@ -76,13 +77,10 @@ export function UploadImage({
             onFileSelect(file);
         }
 
-        // Preview locally
-        const url = URL.createObjectURL(file);
-        if (onChange) {
-            onChange(url);
-        }
+        const imageUrl = await uploadThumbnail(file);
+        onChange?.(imageUrl);
 
-        return false; // Prevent auto upload
+        return imageUrl;
     };
 
     const handleRemove = () => {
