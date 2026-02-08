@@ -1,4 +1,4 @@
-import { UploadImage } from "@/common/components";
+import { MDEditorWithUpload, UploadImage } from "@/common/components";
 import { uploadThumbnail } from "@/common/utils/storage";
 import { siteSettingsApi, type BrandSettingsValue } from "@/modules/site-settings";
 import {
@@ -8,12 +8,9 @@ import {
     TranslationOutlined,
 } from "@ant-design/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Col, Form, Input, message, Row, Space, Tabs, Typography } from "antd";
+import { Alert, Button, Card, Col, Form, Input, message, Row, Space, Tabs } from "antd";
 import { useState } from "react";
 import { useIntl } from "react-intl";
-
-const { Text } = Typography;
-const { TextArea } = Input;
 
 // Max file size: 2MB
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -114,7 +111,7 @@ export const BrandSettingsTab = ({
                 key={`${JSON.stringify(brandValue)}-${contactEmailValue?.email}`}
             >
                 <Row gutter={[48, 24]}>
-                    <Col xs={24} lg={8}>
+                    <Col xs={24} lg={8} xl={6}>
                         <Form.Item
                             name="logo"
                             label={intl.formatMessage({ id: "siteSettings.brand.logo" })}
@@ -175,28 +172,20 @@ export const BrandSettingsTab = ({
                                 style={{ borderRadius: 10 }}
                             />
                         </Form.Item>
-                        <div
-                            style={{
-                                padding: 16,
-                                background: "#f9f9f9",
-                                borderRadius: 12,
-                                marginTop: 12,
-                            }}
-                        >
-                            <Text type="secondary" style={{ fontSize: 12 }}>
-                                {intl.formatMessage({
-                                    id: "siteSettings.contactEmail.help",
-                                })}
-                            </Text>
-                        </div>
+                        <Alert
+                            title={intl.formatMessage({
+                                id: "siteSettings.contactEmail.help",
+                            })}
+                        />
                     </Col>
 
-                    <Col xs={24} lg={16}>
+                    <Col xs={24} lg={16} xl={18}>
                         <Tabs
                             type="card"
                             items={[
                                 {
                                     key: "vi",
+                                    forceRender: true,
                                     label: (
                                         <Space>
                                             <TranslationOutlined />
@@ -226,15 +215,11 @@ export const BrandSettingsTab = ({
                                                     id: "siteSettings.brand.fullIntroVi",
                                                 })}
                                             >
-                                                <TextArea
-                                                    rows={12}
-                                                    placeholder={intl.formatMessage({
-                                                        id: "siteSettings.brand.fullIntroVi.placeholder",
-                                                    })}
-                                                    style={{
-                                                        borderRadius: 12,
-                                                        fontFamily: "Inter, sans-serif",
-                                                    }}
+                                                <MDEditorWithUpload
+                                                    value=""
+                                                    onChange={() => {}}
+                                                    height={400}
+                                                    preview="live"
                                                 />
                                             </Form.Item>
                                         </div>
@@ -242,6 +227,7 @@ export const BrandSettingsTab = ({
                                 },
                                 {
                                     key: "en",
+                                    forceRender: true,
                                     label: (
                                         <Space>
                                             <TranslationOutlined />
@@ -271,15 +257,11 @@ export const BrandSettingsTab = ({
                                                     id: "siteSettings.brand.fullIntroEn",
                                                 })}
                                             >
-                                                <TextArea
-                                                    rows={12}
-                                                    placeholder={intl.formatMessage({
-                                                        id: "siteSettings.brand.fullIntroEn.placeholder",
-                                                    })}
-                                                    style={{
-                                                        borderRadius: 12,
-                                                        fontFamily: "Inter, sans-serif",
-                                                    }}
+                                                <MDEditorWithUpload
+                                                    value=""
+                                                    onChange={() => {}}
+                                                    height={400}
+                                                    preview="live"
                                                 />
                                             </Form.Item>
                                         </div>

@@ -35,7 +35,7 @@ export default {
     "siteSettings.contactEmail.error": "Cập nhật email thất bại",
     "siteSettings.contactEmail.placeholder": "contact@yourdomain.com",
     "siteSettings.contactEmail.help":
-        "💡 Email này sẽ được hiển thị ở chân trang website để khách truy cập có thể liên hệ với bạn.",
+        "Email này sẽ được hiển thị ở chân trang website để khách truy cập có thể liên hệ với bạn.",
     "siteSettings.switch.on": "Bật",
     "siteSettings.switch.off": "Tắt",
     "siteSettings.tab.brand": "Thương hiệu",
