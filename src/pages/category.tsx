@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
+import { revalidateClient } from "@/common/utils/revalidate";
 import type {
     BulkUpdateOrderItem,
     Category,
@@ -85,6 +87,7 @@ export default function CategoryPage() {
                         { label: intl.formatMessage({ id: "menu.category" }) }
                     )
                 );
+                revalidateClient(CACHE_TAGS.CATEGORIES);
             } catch {
                 message.error(
                     intl.formatMessage(
@@ -244,6 +247,7 @@ export default function CategoryPage() {
             try {
                 await bulkUpdateOrderMutation.mutateAsync({ items });
                 message.success(intl.formatMessage({ id: "category.tree.reorderSuccess" }));
+                revalidateClient(CACHE_TAGS.CATEGORIES);
             } catch {
                 message.error(intl.formatMessage({ id: "category.tree.reorderError" }));
                 refetch();
@@ -262,6 +266,7 @@ export default function CategoryPage() {
                     { label: intl.formatMessage({ id: "menu.category" }) }
                 )
             );
+            revalidateClient(CACHE_TAGS.CATEGORIES);
             setCreateModalOpen(false);
             return true;
         } catch {
@@ -286,6 +291,7 @@ export default function CategoryPage() {
                     { label: intl.formatMessage({ id: "menu.category" }) }
                 )
             );
+            revalidateClient(CACHE_TAGS.CATEGORIES);
             setEditModalOpen(false);
             setEditingCategory(null);
             return true;

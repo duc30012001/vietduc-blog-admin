@@ -1,4 +1,6 @@
 import { UploadImage } from "@/common/components";
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
+import { revalidateClient } from "@/common/utils/revalidate";
 import { uploadThumbnail } from "@/common/utils/storage";
 import {
     siteSettingsApi,
@@ -42,6 +44,7 @@ export const SocialLinksTab = ({ socialLinksValue, isLoading }: SocialLinksTabPr
         onSuccess: () => {
             message.success(intl.formatMessage({ id: "siteSettings.socialLinks.success" }));
             queryClient.invalidateQueries({ queryKey: ["site-settings"] });
+            revalidateClient(CACHE_TAGS.SITE_SETTINGS);
         },
         onError: () => {
             message.error(intl.formatMessage({ id: "siteSettings.socialLinks.error" }));

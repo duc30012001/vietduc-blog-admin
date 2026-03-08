@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
+import { revalidateClient } from "@/common/utils/revalidate";
 import type { CreateTagDto, Tag, TagQuery, UpdateTagDto } from "@/modules/tags";
 import { tagApi, useCreateTag, useDeleteTag, useUpdateTag } from "@/modules/tags";
 import {
@@ -75,6 +77,7 @@ export default function TagPage() {
                         { label: intl.formatMessage({ id: "menu.tag" }) }
                     )
                 );
+                revalidateClient(CACHE_TAGS.POSTS);
             } else {
                 const data: CreateTagDto = values;
                 await createMutation.mutateAsync(data);
@@ -84,6 +87,7 @@ export default function TagPage() {
                         { label: intl.formatMessage({ id: "menu.tag" }) }
                     )
                 );
+                revalidateClient(CACHE_TAGS.POSTS);
             }
             closeModal();
             actionRef.current?.reload();
@@ -106,6 +110,7 @@ export default function TagPage() {
                     { label: intl.formatMessage({ id: "menu.tag" }) }
                 )
             );
+            revalidateClient(CACHE_TAGS.POSTS);
             actionRef.current?.reload();
         } catch {
             message.error(

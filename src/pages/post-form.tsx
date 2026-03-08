@@ -1,5 +1,7 @@
 import { MDEditorWithUpload } from "@/common/components";
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
 import { uploadThumbnail } from "@/common/utils";
+import { revalidateClient } from "@/common/utils/revalidate";
 import { useCategoryTree } from "@/modules/categories";
 import type { CreatePostDto, PostStatus, UpdatePostDto } from "@/modules/posts";
 import { useCreatePost, usePost, useUpdatePost } from "@/modules/posts";
@@ -231,6 +233,7 @@ export default function PostFormPage() {
                     )
                 );
             }
+            revalidateClient(CACHE_TAGS.POSTS);
             navigate(PATHS.POST);
         } catch {
             message.error(

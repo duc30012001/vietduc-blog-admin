@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
+import { revalidateClient } from "@/common/utils/revalidate";
 import { formatNumber } from "@/common/utils/string.utils";
 import { useCategoryTree } from "@/modules/categories";
 import type { Post, PostQuery, PostStatus } from "@/modules/posts";
@@ -48,6 +50,7 @@ export default function PostPage() {
                     { label: intl.formatMessage({ id: "menu.post" }) }
                 )
             );
+            revalidateClient(CACHE_TAGS.POSTS);
             actionRef.current?.reload();
         } catch {
             message.error(

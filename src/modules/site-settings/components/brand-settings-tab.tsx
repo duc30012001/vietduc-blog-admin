@@ -1,4 +1,6 @@
 import { MDEditorWithUpload, UploadImage } from "@/common/components";
+import { CACHE_TAGS } from "@/common/constants/cache-tags";
+import { revalidateClient } from "@/common/utils/revalidate";
 import { uploadThumbnail } from "@/common/utils/storage";
 import { siteSettingsApi, type BrandSettingsValue } from "@/modules/site-settings";
 import {
@@ -42,6 +44,7 @@ export const BrandSettingsTab = ({
         onSuccess: () => {
             message.success(intl.formatMessage({ id: "siteSettings.brand.success" }));
             queryClient.invalidateQueries({ queryKey: ["site-settings"] });
+            revalidateClient(CACHE_TAGS.SITE_SETTINGS);
         },
         onError: () => {
             message.error(intl.formatMessage({ id: "siteSettings.brand.error" }));
