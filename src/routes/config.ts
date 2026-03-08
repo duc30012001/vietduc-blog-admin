@@ -5,7 +5,7 @@ export const PATHS = {
     HOME: "/",
     USER: "/user",
     TAG: "/tag",
-    TAG_FORM: "/tag/form",
+
     CATEGORY: "/category",
     POST: "/post",
     POST_FORM: "/post/form",
@@ -27,7 +27,7 @@ export interface RouteConfig {
 // Lazy load pages for better performance
 const User = lazy(() => import("../pages/user"));
 const Tag = lazy(() => import("../pages/tag"));
-const TagForm = lazy(() => import("../pages/tag-form"));
+
 const Category = lazy(() => import("../pages/category"));
 const Post = lazy(() => import("../pages/post"));
 const PostForm = lazy(() => import("../pages/post-form"));
@@ -41,7 +41,7 @@ const NotFound = lazy(() => import("../pages/not-found"));
 export const routes: RouteConfig[] = [
     { path: PATHS.USER, component: User },
     { path: PATHS.TAG, component: Tag },
-    { path: PATHS.TAG_FORM, component: TagForm },
+
     { path: PATHS.CATEGORY, component: Category },
     { path: PATHS.POST, component: Post },
     { path: PATHS.POST_FORM, component: PostForm },

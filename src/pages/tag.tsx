@@ -1,8 +1,9 @@
-import type { Tag, TagQuery } from "@/modules/tags";
-import { tagApi, useDeleteTag } from "@/modules/tags";
-import { PATHS } from "@/routes/config";
+import type { CreateTagDto, Tag, TagQuery, UpdateTagDto } from "@/modules/tags";
+import { tagApi, useCreateTag, useDeleteTag, useUpdateTag } from "@/modules/tags";
 import {
     PageContainer,
+    ProForm,
+    ProFormText,
     ProTable,
     type ActionType,
     type ProColumns,
@@ -12,17 +13,89 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import { Button, Dropdown, message, Modal, type MenuProps } from "antd";
-import { useRef } from "react";
+import { Button, Dropdown, Form, message, Modal, type MenuProps } from "antd";
+import { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
-import { useNavigate } from "react-router-dom";
+
+interface TagFormValues {
+    name_vi: string;
+    name_en: string;
+}
+
+type ModalMode = "create" | "edit" | "view";
 
 export default function TagPage() {
     const intl = useIntl();
-    const navigate = useNavigate();
     const actionRef = useRef<ActionType>(null);
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalMode, setModalMode] = useState<ModalMode>("create");
+    const [editingTag, setEditingTag] = useState<Tag | null>(null);
+
+    const [form] = Form.useForm<TagFormValues>();
+
     const deleteTagMutation = useDeleteTag();
+    const createMutation = useCreateTag();
+    const updateMutation = useUpdateTag();
+
+    // Reset form when modal opens with tag data
+    useEffect(() => {
+        if (modalOpen) {
+            if (editingTag) {
+                form.setFieldsValue({
+                    name_vi: editingTag.name_vi,
+                    name_en: editingTag.name_en,
+                });
+            } else {
+                form.resetFields();
+            }
+        }
+    }, [modalOpen, editingTag, form]);
+
+    const openModal = (mode: ModalMode, tag?: Tag) => {
+        setModalMode(mode);
+        setEditingTag(tag || null);
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+        setEditingTag(null);
+        form.resetFields();
+    };
+
+    const handleSubmit = async (values: TagFormValues) => {
+        try {
+            if (modalMode === "edit" && editingTag) {
+                const data: UpdateTagDto = values;
+                await updateMutation.mutateAsync({ id: editingTag.id, data });
+                message.success(
+                    intl.formatMessage(
+                        { id: "action.update.success" },
+                        { label: intl.formatMessage({ id: "menu.tag" }) }
+                    )
+                );
+            } else {
+                const data: CreateTagDto = values;
+                await createMutation.mutateAsync(data);
+                message.success(
+                    intl.formatMessage(
+                        { id: "action.create.success" },
+                        { label: intl.formatMessage({ id: "menu.tag" }) }
+                    )
+                );
+            }
+            closeModal();
+            actionRef.current?.reload();
+        } catch {
+            message.error(
+                intl.formatMessage(
+                    { id: modalMode === "edit" ? "action.update.error" : "action.create.error" },
+                    { label: intl.formatMessage({ id: "menu.tag" }) }
+                )
+            );
+        }
+    };
 
     const handleDelete = async (id: string) => {
         try {
@@ -93,13 +166,13 @@ export default function TagPage() {
                         key: "view",
                         label: intl.formatMessage({ id: "action.view.button" }),
                         icon: <VisibilityOutlinedIcon style={{ fontSize: 18 }} />,
-                        onClick: () => navigate(`${PATHS.TAG_FORM}?id=${record.id}&mode=view`),
+                        onClick: () => openModal("view", record),
                     },
                     {
                         key: "edit",
                         label: intl.formatMessage({ id: "action.update.button" }),
                         icon: <EditOutlinedIcon style={{ fontSize: 18 }} />,
-                        onClick: () => navigate(`${PATHS.TAG_FORM}?id=${record.id}`),
+                        onClick: () => openModal("edit", record),
                     },
                     {
                         type: "divider",
@@ -136,6 +209,22 @@ export default function TagPage() {
         },
     ];
 
+    const modalTitle =
+        modalMode === "view"
+            ? intl.formatMessage({ id: "tag.form.viewTitle" })
+            : modalMode === "edit"
+              ? intl.formatMessage(
+                    { id: "action.update.title" },
+                    { label: intl.formatMessage({ id: "menu.tag" }) }
+                )
+              : intl.formatMessage(
+                    { id: "action.create.title" },
+                    { label: intl.formatMessage({ id: "menu.tag" }) }
+                );
+
+    const isViewMode = modalMode === "view";
+    const isSubmitting = createMutation.isPending || updateMutation.isPending;
+
     return (
         <PageContainer
             title={intl.formatMessage({ id: "page.tag.title" })}
@@ -144,7 +233,7 @@ export default function TagPage() {
                     key="create"
                     type="primary"
                     icon={<AddIcon />}
-                    onClick={() => navigate(PATHS.TAG_FORM)}
+                    onClick={() => openModal("create")}
                 >
                     {intl.formatMessage({ id: "action.create.button" })}
                 </Button>,
@@ -191,6 +280,55 @@ export default function TagPage() {
                     setting: true,
                 }}
             />
+
+            <Modal
+                title={modalTitle}
+                open={modalOpen}
+                onCancel={closeModal}
+                footer={isViewMode ? null : undefined}
+                onOk={() => form.submit()}
+                okText={intl.formatMessage({ id: "action.save.button" })}
+                cancelText={intl.formatMessage({ id: "action.cancel.button" })}
+                confirmLoading={isSubmitting}
+                destroyOnClose
+            >
+                <ProForm<TagFormValues>
+                    form={form}
+                    onFinish={handleSubmit}
+                    submitter={false}
+                    disabled={isViewMode}
+                    style={{ marginTop: 16 }}
+                >
+                    <ProFormText
+                        name="name_vi"
+                        label={intl.formatMessage({ id: "tag.form.nameVi" })}
+                        placeholder={intl.formatMessage({ id: "tag.form.nameVi.placeholder" })}
+                        rules={[
+                            {
+                                required: true,
+                                message: intl.formatMessage(
+                                    { id: "validation.required" },
+                                    { field: intl.formatMessage({ id: "tag.form.nameVi" }) }
+                                ),
+                            },
+                        ]}
+                    />
+                    <ProFormText
+                        name="name_en"
+                        label={intl.formatMessage({ id: "tag.form.nameEn" })}
+                        placeholder={intl.formatMessage({ id: "tag.form.nameEn.placeholder" })}
+                        rules={[
+                            {
+                                required: true,
+                                message: intl.formatMessage(
+                                    { id: "validation.required" },
+                                    { field: intl.formatMessage({ id: "tag.form.nameEn" }) }
+                                ),
+                            },
+                        ]}
+                    />
+                </ProForm>
+            </Modal>
         </PageContainer>
     );
 }
