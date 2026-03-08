@@ -56,6 +56,7 @@ export default function TagPage() {
             dataIndex: "name_en",
             key: "name_en",
             width: 200,
+            search: false,
         },
         {
             title: intl.formatMessage({ id: "tag.table.slug" }),
@@ -156,7 +157,7 @@ export default function TagPage() {
                 scroll={{ x: 900 }}
                 request={async (params) => {
                     const query: TagQuery = {
-                        keyword: params.keyword,
+                        keyword: (params as Record<string, unknown>).name_vi as string,
                         page: params.current,
                         limit: params.pageSize,
                     };

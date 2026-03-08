@@ -249,7 +249,7 @@ export default function PostPage() {
                 scroll={{ x: 1200 }}
                 request={async (params) => {
                     const query: PostQuery = {
-                        keyword: params.keyword,
+                        keyword: (params as Record<string, unknown>).title_vi as string,
                         page: params.current,
                         limit: params.pageSize,
                         status: params.status as PostStatus,
